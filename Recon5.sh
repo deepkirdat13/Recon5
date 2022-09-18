@@ -21,10 +21,6 @@ if [ ! -d "$subdomain_path" ];then
 	mkdir $subdomain_path
 fi
 
-if [ ! -d "$screenshot_path" ];then
-	mkdir $screenshot_path
-fi
-
 echo -e "${RED} [+] Checkin' who it is ... ${RESET}"
 whois $1 > $info_path/whois.txt
 
@@ -38,4 +34,4 @@ assetfinder $domain | grep $domain >> $subdomain_path/found.txt
 #amass enum -d $domain >> $subdomain_path/found.txt
 
 echo -e "${RED} [+] Checkin' what's alive ... ${RESET}"
-cat $subdomain_path/found.txt | grep $domain | sort -u | httprobe -prefer-https | grep https | sed 's/https\?:\/\///' | tee -a $subdomain_path/alive.txt
+cat $subdomain_path/found.txt | grep $domain | sort -u | httprobe -prefer-https | grep https | sed 's|https://||' | tee -a $subdomain_path/alive.txt
